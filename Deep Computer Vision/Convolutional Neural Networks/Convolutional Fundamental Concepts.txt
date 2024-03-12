@@ -58,6 +58,7 @@ The major differences we are about to see in these types of neural networks are 
  
 """
 
+
 """
 MY Docs Link:
 https://docs.google.com/document/d/1g3X082nmluU-jMGmZotAANUv6vPIDBz5IgZbT3gOIWQ/edit
@@ -86,3 +87,10 @@ https://docs.google.com/document/d/1g3X082nmluU-jMGmZotAANUv6vPIDBz5IgZbT3gOIWQ/
  is present in anywhere image then we will know the pattern in the image.
 
 """
+
+
+"""
+
+DRAWING BOARD - HOW CONVOLUTIONAL NETWORKS WORKS?
+https://miro.com/app/board/uXjVNhgCCxA=/?share_link_id=982196115426
+
