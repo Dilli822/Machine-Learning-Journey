@@ -184,3 +184,37 @@ But we can also take n stride or n times moving or we can two stride
 obviously for larger stride then it will be 2 or 4 stride.
 
 """
+
+
+
+"""
+https://miro.com/app/board/uXjVNhgCCxA=/?share_link_id=748462891002
+
+ ----- Pooling Operation --------
+we have tons of layers and lots of computation for all this filter
+and there must be someway to make these a little bit simpler
+a little bit easier to use. Well, yes, that's true. And there is a 
+way to do that And that's called pooling. So there's three
+types of pooling
+
+Max -mostly used that tell us about the maximum presence of a 
+feature that kind of local area, we really only care if the 
+feature exists.
+
+Min - if 0 does not exists.
+
+Average - not mostly used, tells average presence of features 
+in local area.
+
+
+A Pooling operation is just taking specific values from a sample of the
+output feature map. So once we generate this output feature map,
+what we do to reduce its dimensionality and just make it a little bit
+easier to work with, is when we sample typically 2 x 2 areas of this
+output feature map, and just take either the min max average value of 
+all the values inside of here and map these, we are goona go back this
+way to a new feature map that's twice the one times the size essentially.
+
+What are the three main properties of each convolutional layer?
+Input size, the number of filters, and the sample size of the filters.
+"""
