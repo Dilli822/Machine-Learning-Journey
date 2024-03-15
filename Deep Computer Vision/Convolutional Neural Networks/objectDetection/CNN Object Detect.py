@@ -1,31 +1,8 @@
-
-"""
-Coding Tutorials Link:
-https://www.tensorflow.org/tutorials/images/cnn
-
-1. Create our first Convnet to get familiar with CNN architectures.
-2. Dataset - CIFAR Image Dataset wll be used in tensorflow to classify 10
-   different everyday objects. total images 60K with 32 x 32 images
-   with 6K images of each class.
-   
-   Labels in the dataset are:
-   ['airplane', 'automobile', 'bird', 'cat', 'deer',
-    'dog', 'frog', 'horse', 'ship', 'truck']
-    
-    Dataset:
-    Downloading data from https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
-   
-   
-"""
-
-
 import tensorflow as tf
 from tensorflow.keras import datasets, layers, models
 import matplotlib.pyplot as plt
 
-
 # LOAD AND SPLIT THE DATASET
-# loading tensorflow strange set of data objects
 (train_images, train_labels), (test_images, test_labels) = datasets.cifar10.load_data()
 
 # Normalize the pizel to between 0 and 1
@@ -41,3 +18,21 @@ IMG_INDEX = 7 # CHANGE NUMBERS TO SEE THE IMAGE
 plt.imshow(train_images[IMG_INDEX], cmap=plt.cm.binary)
 plt.xlabel(class_names[train_labels [IMG_INDEX] [0]])
 plt.show()
+
+# Magic Happens Here 
+model = models.Sequential()
+model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32 , 3)))
+model.add(layers.MaxPooling2D( (2, 2) ))
+model.add(layers.Conv2D(64, (3, 3), activation = 'relu' ))
+model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Conv2D(64, (3,3), activation = 'relu'))
+
+model.summary()
+
+model.add(layers.Flatten())
+# 64 dense layers connected to activation function relu
+model.add(layers.Dense(64, activation='relu'))
+# output of 10 neural since we have 10 class of objects
+model.add(layers.Dense(10))
+
+model.summary()
