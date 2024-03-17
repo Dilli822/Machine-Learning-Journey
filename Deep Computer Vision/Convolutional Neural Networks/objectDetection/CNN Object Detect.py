@@ -121,3 +121,4 @@ for batch in datagen.flow(img, save_prefix='text', save_format='jpeg'):
         break 
     
 plt.show()
+
