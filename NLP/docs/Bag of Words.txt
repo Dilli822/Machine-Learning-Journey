@@ -1,0 +1,68 @@
+
+"""
+RNN Continues - NLP 
+
+Sequence of Data
+In the previous tutorials we focused on the data that we could represent
+as one static data point where the notion of time or step was irrelevant
+Take for example our image data, it was simply a tensor of shape
+(width, height, channels). That data doesnot change or care about the
+notion of time.
+
+In this tutorial we will look at sequence of text and learn how we can
+encode them in a meaningful way. Unlike images, sequence data such as
+long chains of text, weather patterns, videos and really anything where
+the notion of a step or time is relevant needs to be processed and handled
+in a special way.
+
+But what do I mean by sequences and why is text data a sequence? Well
+that's a good question. Since textual data contains many words that 
+follow in a very specific and meaningful order we need to be able 
+to keep track of each word and when it occurs in the data. Simply
+encoding say an entire paragraph of text into one data point wouldn't
+give us a very meaningful picture of the data and would be very difficult
+to do anythin with. This is why we treat text as a sequence and process
+one word at a time. We will keep track of where each of these words appear
+and use that information to try to understand the meaning of pieces of text.
+
+"""
+# How our RNN going to read and actually understand and process the text/paragraph?
+# Textual data into numeric data that can be feed into machine learning model.
+
+# Tracking 
+# Words - 0
+# Hello - 1
+# I - 2
+# am - 3
+# Dilli Hang Rai - 4
+# from - 5
+# Itahari - 6
+# I - 1
+# .
+# .
+# .
+# .
+
+# Dictionary Vocabulary of Words:
+# Every unique word in our data set is the vocabulary and the
+# model expects to see them as dictionary of words. 
+# Every single one of these words, so every single one of these words in the vocabulary is going to be placed in a dictionary. And single one of these words in the vocabulary is going to be.
+# placed in a dictionary. And beside that we are going to have some integer that represents it. So, for example, maybe the vocabulary of our data set is the words I, am, Dilli, Hang, Rai.
+# We are going to keep track of the words that are present and the frequency of those words. And
+# In fact, what we'll do well is we'll create what we call a bag and whenever we see a word appears,
+# we'll simply add its number into the bag.
+# There can be 1000 and millions of words, each has unique integers associated we focus on the track of the frequency and as bag of words becomes bigger, we will be losing the order and increasing
+# frequency.
+
+
+# Limitation of Bag of words:
+# With the complex words, text there are words that have specific meaning, and this method is pretty flawed way to encode this data.
+# Note: These are only rough explanation of Bag of words.
+
+# Example on how bag of words lose the context or the real actual meaning of the
+# sentences for an e.g.:
+# I though the movie was going to be bad, but it was actually amazing!
+# I thought the movie was going to be amazing, but it was actually bad!
+
+# Although these two sentences are very similar, we know that they have different meanings. This is because of the ordering of words, a very important property of textual data.
+# Now keep that in mind while we consider some different ways of encoding our textual data.
