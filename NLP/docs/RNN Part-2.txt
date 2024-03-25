@@ -1,5 +1,6 @@
 
 # Source: https://colah.github.io/posts/2015-08-Understanding-LSTMs/
+# https://miro.com/app/board/uXjVKdkgsF0=/
 """
 LSTM (Long Short-Term Memory):
 
