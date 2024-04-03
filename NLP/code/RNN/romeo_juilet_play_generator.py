@@ -100,3 +100,78 @@ print(predicted_chars) # gives any random predicted values
 
 def loss(labels, logits):
     return tf.keras.losses.sparse_categorical_crossentropy(labels, logits, from_logits = True)
+
+
+model.compile(optimizer='adam', loss=loss)
+
+# Directory where the checkpoints will be saved
+checkpoint_dir = './training_checkpoints'
+# Name of the checkpoint files
+checkpoint_perfix = os.path.join(checkpoint_dir, "ckpt_(epoch)")
+
+checkpoint_callback = keras.callbacks.ModelCheckpoint(
+    filepath = checkpoint_perfix,
+    save_weights_only = True
+)
+
+# Training : Finally we will start training the model
+# if this is taking a while go to Runtime > Change Runtime Type and Choose GPU under hardware accelerator
+
+history = model.fit(data, epochs=1, callbacks=[checkpoint_callback])
+
+
+
+# Loading the Model
+# We'll rebuild the model from a checkpoint using a batch_size of 1 so that we can feed one piece of text to the model and have it make a prediction.
+
+model = build_model(VOCAB_SIZE, EMBEDDING_DIM, RNN_UNITS, batch_size=1)
+
+# Once the model is finished training we can find the latest checkpoint that stores the models weights the following line
+model.load_weights(tf.train.latest_checkpoint(checkpoint_dir))
+model.build(tf.TensorShape([1, None]))
+
+# We can load any checkpoint we want by specifying the exact file to load 
+checkpoint_num = 10
+
+
+# Generating the text
+def generate_text(model, start_string):
+    # Evaluate step (Generating text using the learned model)
+    
+    # Number of characters to generate
+    num_generate = 800
+    
+    # Converting our start string to numbers (vectorizing)
+    input_eval = [char2idx[s] for s in start_string]
+    [9,8,7]
+    input_eval = tf.expand_dims(input_eval, 0)
+    
+    # empty string to store our results
+    text_generated = []
+    
+    # Low temperature results in more predictable text.
+    # Higher temperature results in more surprising text.
+    # Experiment to find the best setting.
+    temperature = 1.0
+    
+    # Here batch size == 1
+    model.reset_states()
+    for i in range(num_generate):
+        predictions = model(input_eval)
+        # remove the batch dimension
+        predictions = tf.squeeze(predictions, 0)
+        
+        # Using a categorical distribution to predict the character returned by the model
+        predictions = predictions / temperature
+        predicted_id = tf.random.categorical(predictions, num_samples=1)[-1, 0].numpy()
+        
+        # we pass the predicted character as the next input to the model
+        # along with the previous hidden state
+        input_eval = tf.expand_dims([predicted_id], 0)
+        
+        text_generated.append(idx2char[predicted_id])
+        
+    return (start_string + ''.join(text_generated))
+        
+inp = "romeo"
+print(generate_text(model, inp))
