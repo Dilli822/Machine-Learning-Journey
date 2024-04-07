@@ -1,0 +1,234 @@
+
+# Tutotrial: https://www.freecodecamp.org/learn/machine-learning-with-python/tensorflow/reinforcement-learning-with-q-learning-example
+# install pip3 install gym or pip install gym
+
+"""
+Q-Learning Example
+For this example we will use the Q-Learning algorithm to train an agent to navigate a popular environment from the OpenAI Gym. The open
+gym was developed so programmers could practice machine learning using unique environments. Interesting facts, Elon Musk is one of the 
+founders of Open AI! (This tutorial is from 2020 or 2021 so).
+
+From video:
+>>>> This part is not avaiable anymore because you open AI is not open anymore.😎
+
+Open AI gYM is kind of module,I don't even actually, I don't even know the way to descrive it almost tool that was actually developed by 
+Open Ai , um you can work in gynm environment and train the reinforcement learning models. So you'll see how this works in a second. But
+essentially, there's a ton of graphica; environments that have easy interfaces to use. So like moving characters around them , that you're
+allowed to experiment with completely for free as a programmer to try to, you know, make some cool reinforcement learning models. That's
+what opening a gym is. And you can look as it mean, go to https://openai.com
+
+
+>>>>>>>>>>
+
+Open Ai gym is meant for RL and essentially what it has it an observation space and an action space for every environment, Now, the observation 
+space is what we call our environment right. And that will tell us the amount of states that exist in this environment. Now in our case, we're
+print(env.observation_space.n) # get number of states 
+
+gonna be using this kind of like a maze like thing, which I'll show you in a second, so you understand why we get the values we do.
+print(env.action_space.n) # get number of actions  action space tells us how many actions we can take when we do the env.actoin_space.n at given any 
+state. so if we print this we get 16 and 4
+
+print(env.observation_space.n) # 16
+print(env.action_space.n) # 4
+
+representing the obeservation space. In other words , the number of states is 16. And the amount of actions we can take in every single state is four. 
+Now in this case,these actions can be "LEFT, DOWN, UP AND RIGHT". 
+
+But yes, now env.dot.reset so essentially, we have some commands that allow us to move around the environment which are actually down here. If we want to
+reset the environment and start back in the beginning state, then we do env.dot_reset, you can see this actually "RETURNS TO US THE STARTING STATE",
+which obviously is going to be zero. 
+env.reset()  # 0
+
+Now, we also have the ability to take a random action, or select a random action from the action space. So what this line does right here, say, of the action
+space, so all the commands that are there are all the actions we could take, pick a random one and return that. So if you do that, actually let's just print
+action and see what this is, you see, we get 0 and 1 or 2 or whatever the number each time printing ? It just gives us random action that is valid from the
+action space. 
+
+>>> observation, reward, done, info = env.step(action) 
+print(action = env.action_space.sample())
+Alright, next, what we have is this env.step(action) Now what this does is " take whatever action we have, which in this case is 3" and performs that in the 
+environent. So tell our agent to take this action in the environment and return to us a bunch of information .
+
+So the first thing is the observation, which essentially means what state do we move into next. So I could call this new_state. reward is what reward that we
+receive by taking that action. So this will be some value right? In our in this case, the reward is either one or zero. But that's no the important to 
+understand . 
+
+and then we have bool of done, which tell us "DID WE LOSE THE GAME?" OR DID WE WIN THE GAME? YES OR NOE, SO TRUE. SO IF THIS IS TRUE, WHAT THIS
+means we is we need to reset the environment because our agent either lost or won, and is no longer in a valid state in the environment, info gives you us a 
+little bit of information, It's not showing me anything here.
+We're not going to use info throughout this, but figured I'd let you know that. 
+
+Now, env.render() will actually render this for you and show you renders a graphical user interface that shows you the environment. Now, if you use this while 
+you're training, so you actually watch the agent do the training, which is what you can do with this. It slows it down drastically, like probability by you know,
+10 or 20 times because it actually needs to draw the stuff on the screen, But you can use it if you want so this is what our frozen lake example look like.
+
+assume env.render()  # since this is old api
+(Up)
+SFFF
+FHFH
+FFFH
+HFFG
+
+You can see that the highlighted square is where our agent is, And this in this case, we have four different blocks. We have SFFF
+S = STANDS FOR START
+F = FRONZEN
+G = GOAL
+H = HOLE
+
+because it7s frozen lake, And the goal is to navigate to the goal without falling in one of the holes which is represented by H. And this here tells us the action that
+we just took now I guess the starting action is up because that's zero, I believe. But yes, so if we run this a bunch of times, we'll see this updating.
+
+
+>>> FROZEN LAKE ENVIRONMENT (FROM TUTORIAL ORIGINAL NOTE)
+Now that we have a basic understanding of how the gym enironment works it's time to discuss the specific problem we will be solving. The environment we loaded above 
+FrozenLake-v0 is one of the most simple environments in OpenAI Gym.  The goal of the agent is to navigate a frozen lake and find the Goal without falling through the
+ice(render the environment above to see an example).
+
+There are:
+ - 16 states (one for each square)
+ - 4 possible actions (LEFT, RIGHT, UP, DOWN)
+ - 4 different types of blocks
+ 
+ 
+Unfortunately, this doesnot work very well in Google Collaboratory, the gooeyes but if you did this in your own command line, and you'd like did some different steps and 
+rounded it all out, you would see this working properly. Okay, so now we're on to talking about the frozen lake Environment, just kind of what I just did. So now we're just
+gonna move to the example where we actually implement Q learning to essentially solve the problem, how can we train an AI to navigate this environment and get to the start 
+to the goal? 
+
+How can we do that? Well, we are gonna use Q learning, so let's start. So the first thing we need to do is import gym, import numpy and import time then create some constants
+here. So we'll do that we're gonna say the amount of states 
+
+env = gym.makle('FrozenLake-v1')
+STATES = env.obeservation_space.n
+ACTIONS = env.action_space.n 
+
+Q = np.zeros((STATES, ACTIONS))
+print("Q: ", Q)
+
+and also we are going to equal to np.zeros and states and actions and so something that I guess I forgot to mention is when we initialize the Q table, we just initialize all
+the Q table, we just initialize all blank values or zero values, because obviously, " at the begining of our learning, our model, or our agent doesnot know about environment 
+yet, so we just leave those all blank which means we're going to more likely to be taking random actions at the beginning of our training, trying to explore the environment 
+space more. "
+
+And then as " we get further on and learn more about the environment, those actions will likely be more calculated based on the Q Table values. So we print this out, we can 
+see this is the array that we get
+
+Q:  [[0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]]
+
+we get we've had to be build a 16 by four, I guess not array, well, I guess technically is an array. And we'll call it matrix 16 by Four, so every single row represents
+a " state " and every single column represents an action that could be taken in that state. Alright, so we 're going to find some constants here,
+
+>> Constants (From Tutorial Note)
+As we discussed we need to defined some constatnts that weill be used to update our Q-Table and tell our agent when to stop training.
+
+
+"""
+
+# # Let's start by looking at what open ai gym is .
+# import gym # all you have to do import and use open ai gym!
+
+# # once you import you ca load an enviornment and using the gym.make("enviornment")
+# env = gym.make("FrozenLake-v1")
+
+# # There are a few other commands that can be used to interact and get information about the environment
+# print(env.observation_space.n) # get number of states
+# print(env.action_space.n) # get number of actions 
+
+# env.reset()  #reset environment to default state
+
+# action = env.action_space.sample()  # get a random action 
+# print(action)
+
+# this will be changed 
+# observation, reward, done, info = env.step(action) # take action, notice it returns information about the 
+# env.render() # render the GUI for the environment
+
+# new_state, reward, done, info, _ = env.step(action) # take action same as above Alternatively, you can use _ to ignore additional elements in the tuple if you don't need them:
+# env.render()
+
+
+# import numpy as np
+# import time
+
+# env = gym.make('FrozenLake-v1')
+# STATES = env.observation_space.n
+# ACTIONS = env.action_space.n 
+
+# Q = np.zeros((STATES, ACTIONS))
+# print("Q: ", Q)
+
+
+"""
+Q = np.zeros((STATES, ACTIONS))
+print("Q: ", Q)
+
+Q:  [[0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]]
+
+we get we've had to be build a 16 by four, I guess not array, well, I guess technically is an array. And we'll call it matrix 16 by Four, so every single row represents
+a " state " and every single column represents an action that could be taken in that state. Alright, 
+"""
+
+"""
+so we 're going to find some constants here, which we talked about before. so we have the gamma the learning rate and the maximum steps and the nubmer of episodes. So the
+number of episodes is actually " how many episodes you want to train your agent on. So how many times do you want it to run around and explore the environment?" That's what 
+episode stands for ?
+
+MAX STEPS essentially says, okay, so if we're in the environment, and we're kind of " navigating and moving around, we havenot died yet". How many steps are we going to 
+let the agent take before we cut it off, because what could happen is we could just bounce in between two different states indefinitely. So we need to make sure we have a max
+steps so that at some point, if the agent is just doing the same thing, we can, you know no matter if  it's like going in circles, we can end that and start again, with different
+you know Q values.
+
+Alright, so episode yean, we are talking about that learning rate, we know what that is gamma we know what that is , mess with these values as we go through
+
+"""
+#>> Constants (From Tutorial Note)- As we discussed we need to defined some constatnts that weill be used to update our Q-Table and tell our agent when to stop training.
+
+# EPISODES = 10000  # how many times to run the environment from the begining
+# MAX_STEPS = 100   # max number of steps allowed for each run of the environment
+
+# LEARNING_RATE = 0.81  # learning rate
+# GAMMA = 0.96 
+
+
+# epsilon = 0.9 # start with a 90% chance of picking a random actino
+
+# code to pick action
+# if np.random.uniform(0, 1) < epsilon: # we will check if a randomly selected value is less than epsilon.
+#     action = env.action_space.sample()
+# else:
+#     action = np.argmax(Q[state, :]) # use Q table to pick best action based on current 
+    
+
+
+# # Updating the Q values - The code below implements the formula discussed above
+# Q[state, action ] = Q[state, action ] + LEARNING_RATE * (reward + GAMMA * np.nax(Q[new_state, :]) - Q[state, action])
