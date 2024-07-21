@@ -1,3 +1,4 @@
+# Recurrent Neural Network (RNN) utilizing LSTM
 """
 from Tutorial
 https://www.freecodecamp.org/learn/machine-learning-with-python/tensorflow/natural-language-processing-with-rnns-sentiment-analysis
@@ -58,7 +59,8 @@ reviews = [
     "That movie sucked. I hated it and wouldn't watch it again. It was one of the worst things I've ever watched.",
     "The movie was terrible, I wouldn't recommend it.",
     "I just saw this movie tonight and it was one of the best I have ever seen. Simply amazing. It made GRAVITY look like a kiddie flick.",
-    "It was an okay movie, nothing special but not bad either.",
+    "The fact this movie was made in 1997 and is still one of the most amazing movies of all time is mind-blowing",
+    "I really miss this movie so much. That time when I watched this movie on theatres with full of people and the crowd went crazy during epic fights."
 ]
 
 # Evaluate each review and store results
@@ -76,7 +78,7 @@ for review in reviews:
     elif review_accuracy < 0.5:
         sentiment = "Negative"
         color = 'red'
-    else:
+    elif review_accuracy == 0.5:
         sentiment = "Neutral"
         color = 'blue'
 

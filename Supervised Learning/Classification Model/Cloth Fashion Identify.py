@@ -1,4 +1,3 @@
-
 # building another model for cloth fashion classification
 # TensorFlow and tf.keras
 import tensorflow as tf
@@ -8,16 +7,13 @@ import matplotlib.pyplot as plt
 
 print(tf.__version__)
 
-
 # loading the dataset
 fashion_mnist = tf.keras.datasets.fashion_mnist
 (train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
 
-
 # class names of the cloth
 class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
-
 
 # exloreing the data
 print("training image shapes --> n number of image, n x n pixel sizes ", train_images.shape)
@@ -27,7 +23,20 @@ print("------------ FOR TESTING ------")
 print("Test Images Shape ---> ", test_images.shape)
 print("Test Images Label ---> ", len(test_labels))
 
+# Display the first 35 images with their class names
+plt.figure(figsize=(15, 15))
+plt.suptitle('Original Sample Images', fontsize=24)
 
+for i in range(35):
+    plt.subplot(7, 5, i + 1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.grid(False)
+    plt.imshow(train_images[i], cmap=plt.cm.binary)
+    plt.xlabel(f'{i}. {class_names[train_labels[i]]}', fontsize=10)
+    
+plt.tight_layout(rect=[0, 0, 1, 0.96])  # Adjust layout to make space for suptitle
+plt.show()
 
 # Preprocess the data for image1 or first image from the tons of images
 plt.figure()
@@ -55,7 +64,6 @@ for i in range(25):
     plt.xlabel(class_names[train_labels[i]])
     
 # plt.show()
-
 
 # ----------- BUILDING THE MODEL ---------------
 # TO BUILD WE NEED LAYERS OF THE MODEL

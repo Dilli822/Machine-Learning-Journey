@@ -149,3 +149,90 @@ explode = (0.1, 0)  # Explode the first slice by 10% of the radius
 plt.pie(piedata, labels=pieLabels, explode=explode, autopct='%1.1f%%', startangle=90)
 plt.legend()  # Add legend
 plt.show()
+
+# FULLY CONNECTED FEEDFORWARD ANN, ACTIVATION FUNCTION IS RELU
+
+# import tensorflow as tf
+# import numpy as np
+# import matplotlib.pyplot as plt
+
+# print(tf.__version__)
+
+# # Load the dataset
+# fashion_mnist = tf.keras.datasets.fashion_mnist
+# (train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
+
+# # Class names of the clothing items
+# class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
+#                'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+
+# # Explore the data
+# print("Training image shape:", train_images.shape)
+# print("Number of training labels:", len(train_labels))
+# print("Training labels:", train_labels)
+# print("Test image shape:", test_images.shape)
+# print("Number of test labels:", len(test_labels))
+
+# # Preprocess the data
+# plt.figure()
+# plt.imshow(train_images[100])
+# plt.colorbar()
+# plt.grid(False)
+# plt.show()
+
+# train_images = train_images / 255.0
+# test_images = test_images / 255.0
+# # Display the first 25 images from the training set
+# plt.figure(figsize=(10, 10))
+# for i in range(25):
+#     plt.subplot(5, 5, i + 1)
+#     plt.xticks([])
+#     plt.yticks([])
+#     plt.grid(False)
+#     plt.imshow(train_images[i], cmap=plt.cm.binary)
+#     plt.xlabel(class_names[train_labels[i]])
+# plt.show()
+
+# # Build the model
+# model = tf.keras.Sequential([
+#     tf.keras.layers.Flatten(input_shape=(28, 28)),
+#     tf.keras.layers.Dense(128, activation='relu'),
+#     tf.keras.layers.Dense(10)
+# ])
+
+# # Compile the model
+# model.compile(optimizer='adam',
+#               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+#               metrics=['accuracy'])
+
+# # Train the model
+# model.fit(train_images, train_labels, epochs=10)
+
+# # Evaluate the model
+# test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
+# print('\nTest accuracy:', test_acc)
+# print('\nTest Loss:', test_loss)
+
+# # Function to predict and display the images
+# def predict_and_display(model, images, labels, class_names, num_images):
+#     predictions = model.predict(images[:num_images])
+
+#     plt.figure(figsize=(10, 10))
+#     for i in range(num_images):
+#         plt.subplot(5, 5, i + 1)
+#         plt.xticks([])
+#         plt.yticks([])
+#         plt.grid(False)
+#         plt.imshow(images[i], cmap=plt.cm.binary)
+#         predicted_label = np.argmax(predictions[i])
+#         true_label = labels[i]
+#         color = 'blue' if predicted_label == true_label else 'red'
+#         plt.xlabel(f"{class_names[predicted_label]} ({class_names[true_label]})", color=color)
+#     plt.show()
+
+# # Ask the user for the number of images to predict
+# num_images = int(input("Enter the number of clothing items you want to predict (max 25): "))
+# num_images = min(num_images, 25)  # Limit to a maximum of 25
+
+# # Predict and display the images
+# predict_and_display(model, test_images, test_labels, class_names, num_images)
