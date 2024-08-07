@@ -1,28 +1,48 @@
-// book catalog for the php CRUD Operations
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title> Book Catalog </title>
+<title> SIGNUP FORM </title>
+<style>
+.error{
+color: red;
+}
+.hidden{
+display: none;
+}
+
+</style>
 </head>
 <body>
 
-<form action="process.php" method="post">
-<label for="searchType"> Book Catalog </label> <br>
-<select id="searchType"> 
-<option value="title">title </option>
-<option value="autho">author </option>
-</select>
-<br>
-<label for="download">Download </label>
-<input type="radio" value="1" name="download"> Yes <br>
-<input type="radio" value="0" name="download"> No
-<br>
-<label for="keyword">keyword </label>
-<input type="text" required name="keyword" id="keyword">
-<br>
+<form id="signupForm">
+<label for="username">
+username </label>
+<span id="username_error" class="error hidden"> username must be more than 5 characters</span> <br>
+<input type="text" required id="username" name="username" /> <br>
 
-<input type="submit" value="Search" >
 
+<label for ="email"> email </label><br>
+<span id="email_error" class="error hidden">please provide valid email @</span> <br>
+<input type="email" required id="email" name="email"> <br>
+
+
+<label for="age"> age  </label> <br>
+<span id="age_error" class="error hidden">age must be more than 16</span> <br>
+<input type="number" id="age" name="age"> <br>
+
+<label for="password"> password </label> <br>
+<span id="password_error" class="error hidden"> Password Must be more than 8 characters</span> <br>
+<input type="password" id="password" name="password"/><br>
+
+<button type="submit"> signup </button>
 </form>
 
+<script>
+document.getElementById("signupForm").addEventListener(
+ 'submit', function(event){
+}
+)
+</script>
+
+</body>
+</html>

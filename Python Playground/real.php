@@ -6,7 +6,7 @@ $arr = ["hello", "world", 23232];
 
 $arr = array (
 "name" => "dilli"
-)
+);
 
 $mua = array(
 array("hello", "world", 23.23),
@@ -20,7 +20,7 @@ $mual = [
 
 $muaa = array(
 array("hello" => "sds")
-)
+);
 
 
 $Product = array(
@@ -42,16 +42,15 @@ echo "
 
 ";
 
-foreach ($Product as $items){
-echo" <tr>
-<td> {items["pcode"]} </td>
-<td> {items["pname"]} </td>
-<td> {items["price"]} </td>
+foreach($Product as $items){
+echo"<tr>
+<td> {items['pcode']} </td>
 </tr>
+";
 };
+
+echo"
 </table>
 </body>
 ";
-
-
 ?>

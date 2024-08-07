@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-9"?>
+<CSIT>
+<semester> 
+<semesterName> first </semesterName>
+<semesterSubject> 5 </semesterSubject>
+<credit> 15 </credit>
+</semester>
+
+<semester>
+<semesterName> second </semesterName>
+<semesterSubject> 5 </semesterSubject>
+<credit> 15 </credit>
+</semester>
+
+</CSIT>
+
+// equivalemt DTD declares the document type and DTD to be used since DTD defines the specified formats and constraints
+// specified formats and constraints, specified formats and constraints
+# pcdata means parse data 
+// semester+ means contains more than one semester by element CSIT 
+<!DOCTYPE CSIT[
+<!ELEMENT CSIT(semester+)>
+<!ELEMENT semester(semesterName, semesterSubject, credit)>
+<!ELEMENT semesterName(#PCDATA)>
+<!ELEMENT semesterSubject(#PCDATA)>
+<!ELEMENT credit(#PCDATA)>
+]>
