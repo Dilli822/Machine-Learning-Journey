@@ -1,29 +1,28 @@
-<?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "catalog";
+<?xml version="1.0" encoding="UTF-8" ?>
+<School>
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-if(conn->connect_error){
-die("connection failed " .conn->connect_error);
-}
+<class>
+<grade> 1 </grade>
+<students> 20 </students>
+</class>
 
-IF($_SERVER["REQUEST_METHOD"] == "POST"){
-$firstname = $_POST["firstname"];
-$lastname = $_POST["lastname"];
-$email = $_POST["email"];
+<class>
+<grade> 2</grade>
+<students> 25 </students>
+</class>
 
-$sql = "INSERT INTO  student (firstname, lastname, email) VALUES ('$firstname', '$lastname', '$email');
+</School>
 
-if($conn->query($sql) === TRUE){
+DTD
+<!DOCTYPE School [
+<!ELEMENT School(class+)>
+<!ELEMENT class(grade, students)>
+<!ELEMENT grade (#PCDATA)>
+<!ELEMENT students(#PCDATA)>
+]>
 
-}else{
-echo "error" . $sql . $conn->error;
-}
+XSD - defines the structure of the XML Document
+<? xml version="1.0" ?>
 
 
-}
-$conn->close();
 
-?>
