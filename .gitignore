@@ -1,0 +1,27 @@
+# Ignore all files with .log extension
+*.log
+
+# Ignore the .env file
+.env
+
+# Ignore the node_modules folder
+node_modules/
+
+# Ignore all files in the build folder
+build/
+
+# Ignore a specific file
+secret_config.json
+
+# Ignore all .DS_Store files (common on macOS)
+.DS_Store
+
+# Ignore all .pyc files (Python compiled files)
+*.pyc
+
+# Ignore all files in a directory named 'temp'
+temp/
+
+# Ignore Python environment folders
+env/
+.venv/
