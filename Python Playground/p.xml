@@ -1,44 +1,43 @@
-<?xml version="1.0" encoding="UTF-9"?>
-<CSIT>
-<semester> 
-<semesterName> first </semesterName>
-<semesterSubject> 5 </semesterSubject>
-<credit> 15 </credit>
-</semester>
+<? xml version="1.0" encoding="UTF-8" ?>
+<library>
 
-<semester>
-<semesterName> second </semesterName>
-<semesterSubject> 5 </semesterSubject>
-<credit> 15 </credit>
-</semester>
+<book>
+<author> RR Martin </author>
+<title> Song of Ice and Fire </title>
+<price> 233.223 </price>
+</book>
 
-</CSIT>
+<book>
+<author> Peter Norvig  </author>
+<title> AI </title>
+<price> 23232.2323 </price>
 
-// equivalemt DTD declares the document type and DTD to be used since DTD defines the specified formats and constraints
-// specified formats and constraints, specified formats and constraints
-# pcdata means parse data 
-// semester+ means contains more than one semester by element CSIT 
-<!DOCTYPE CSIT[
-<!ELEMENT CSIT(semester+)>
-<!ELEMENT semester(semesterName, semesterSubject, credit)>
-<!ELEMENT semesterName(#PCDATA)>
-<!ELEMENT semesterSubject(#PCDATA)>
-<!ELEMENT credit(#PCDATA)>
+</book>
+
+</library>
+
+<!-- equalivalent DTD defines the document type-->
+
+<!DOCTYPE library[
+<!ELEMENT library(book+)>
+<!ELEMENT book(author, title, price)>
+<!ELEMENT author(#PCDATA)>
+<!ELEMENT title(#PCDATA)>
 ]>
 
-
-
-<xs:element name="School">
+<!--- XSD-->
+<? xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="https://www.w3.org/2001/XMLSchema" >
+<xs:element name="library">
 <xs:complexType>
 <xs:sequence>
-<xs:element name="class" maxOccurs="unbounded">
+<xs:element name="book" maxOccurs="unbounded" minOccurs=0>
 <xs:complexType>
-<xs:sequence>
-<xs:element name="grade" type="xs:int"/>
-<xs:element name="students" type="xs:int"/>
-</xs:sequence>
+<xs:element name="author" type="xs:string"/>
+<xs:element name="title" type="xs:string"/>
+<xs:element name="price" type="xs:float"/>
 </xs:complexType>
-</xs:element>
 </xs:sequence>
-</xs:complexType>
-</xs:element>
+
+
+
