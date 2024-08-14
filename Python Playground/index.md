@@ -1,57 +1,43 @@
 <?php
+// search and display the result 
+$servername = "localhost";
+$dbname = "cct";
+$username = "root";
+$password = "";
 
-// 1. array with array keyword
-$a = array("hello", "world", 2023);
-$arr = ["hello", "world", 23232];
+// connection
+$conn = new mysqli($servername, $dbname, $username, $password);
 
-$arr = array (
-"name" => "dilli"
-)
+// checking the connection
+if($conn->connect_error){
+ die("Connection failed". $conn->connect_error);
+}
 
-$mua = array(
-array("hello", "world", 23.23),
-array("hello", 232.232, 23)
-);
+if($_SERVER['REQUEST_METHOD'] == "POST"){
+$id = $_POST['id'];
+$firstname = $_POST['firstname'];
+$lastname = $_POST['lastname'];
+$email = $_POST['email'];
 
-$mual = [ 
-["hsd", "efe"],
-[232, 232.232],
-];
-
-$muaa = array(
-array("hello" => "sds")
-)
+$sql = "UPDATE student SET firstname = '$firstname',
+lastname = '$lastname',
+email = '$email' 
+WHERE id = $id";
 
 
-$Product = array(
-array("pcode" => 001, "pname" => "watch", "price" => 1212.22),
-array("pcode" => 002, "pname" => "tv", "price" => 1222.22)
-);
 
-echo "
 
-<html>
-<body>
+if($conn->query($sql)){
+ echo"success updated";
+}
+else{
+echo "error";
+}
 
-<table>
-<tr>
-<th>pcode </th>
-<th>pname </th>
-<th>price </th>
-</tr>
+}
 
-";
-
-foreach ($Product as $items){
-echo" <tr>
-<td> {items["pcode"]} </td>
-<td> {items["pname"]} </td>
-<td> {items["price"]} </td>
-</tr>
-};
-</table>
-</body>
-";
-
+$conn->close();
 
 ?>
+
+<form method = "POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">

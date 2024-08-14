@@ -19,7 +19,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $lastname = $_POST['lastname'];
     $email = $_POST['email'];
 
-    $sql = "UPDATE student SET firstname='$firstname', lastname='$lastname', email='$email' WHERE id=$id";
+    $sql = "UPDATE student 
+    SET firstname='$firstname', 
+    lastname='$lastname',
+    email='$email' WHERE id=$id";
 
     if ($conn->query($sql) === TRUE) {
         echo "Record updated successfully";

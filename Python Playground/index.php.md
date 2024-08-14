@@ -1,4 +1,5 @@
 <?php
+// search and display the result 
 $servername = "localhost";
 $dbname = "cct";
 $username = "root";
@@ -7,51 +8,48 @@ $password = "";
 // connection
 $conn = new mysqli($servername, $dbname, $username, $password);
 
+// checking the connection
 if($conn->connect_error){
- die("connection failed". $conn->connect_error);
+ die("Connection failed". $conn->connect_error);
 }
 
 // search 
-$search = isset($_POST["search"]) ? $_POST["search"] : " ";
+$search = isset($_POST['search']) ? $_POST['search'] : " ";
 
-// sql 
-$sql = "SELECT id, firstname, lastname, email from Student WHERE
-firstname LIKE '%$search%' OR lastname LIKE '%$search%' OR email Like '%$search% ";
+// sql query
+$sql = "SELECT id, firstname, lastname, email FROM student 
+WHERE firstname LIKE '%$firstname%' OR
+lastname LIKE '%$lastname%' OR
+email LIKE '%$email' ";
 
-$result = $conn->query(%sql);
+// result 
+$result = $conn->query($sql);
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<body>
 
 <form method="POST">
-<label for="Search"> Search </label>
-<input type="text" id="search" name="search" value="<?php echo htmlspecialchars($search); ?>">
-<input type="submit">
+<input type="text" id="search" value="<?php echo htmlspecialchars($search); ?">
+<input type="submit" value="Search">
 </form>
 
-<?php 
-echo"
-<tr>
-<th> id </th>
-</tr>
+<?php
 
-";
 if($result->num_rows > 0){
-while($row = $result-> fetch_assoc() ){
- echo"
- <tr>
-<td> ". $row["id"]". </td>
+echo"<table>
+<tr> 
+<th> id </th>
+<th> firstname </th>
+<th> lastname </th>
+<th> email </th>
 </tr>
+";
+while($row = $result->fetch_assoc()){
+echo"<tr>
 
- ";
+<td> "$row['id']" </td>
+</tr>";
 }
-echo "</table>";
+echo"</table>";
 }else{
- echo"no result";
+echo "no data found";
 }
 ?>
-
-</body>
-</html>

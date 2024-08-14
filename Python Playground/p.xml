@@ -1,42 +1,42 @@
-<? xml version="1.0" encoding="UTF-8" ?>
+
+
+<? xml version="1.0" encoding ="UTF-8" ?>
 <library>
-
 <book>
-<author> RR Martin </author>
-<title> Song of Ice and Fire </title>
-<price> 233.223 </price>
+<author> rr martin </author>
+<title> game of thrones </title>
+<price> 1222.22 </price>
 </book>
 
 <book>
-<author> Peter Norvig  </author>
-<title> AI </title>
-<price> 23232.2323 </price>
-
+<author> peter norvig </author>
+<title> ai book </title>
+<price> 12121.121 </price>
 </book>
-
 </library>
 
-<!-- equalivalent DTD defines the document type-->
-
+// DTD
 <!DOCTYPE library[
 <!ELEMENT library(book+)>
 <!ELEMENT book(author, title, price)>
 <!ELEMENT author(#PCDATA)>
 <!ELEMENT title(#PCDATA)>
+<!ELEMENT price(#PCDATA)>
 ]>
 
-<!--- XSD-->
+// XSD 
+
 <? xml version="1.0" encoding="UTF-8" ?>
 <xs:schema xmlns:xs="https://www.w3.org/2001/XMLSchema" >
 <xs:element name="library">
 <xs:complexType>
 <xs:sequence>
-<xs:element name="book" maxOccurs="unbounded" minOccurs=0>
+<xs:element name="book" maxOccurs="unbounded" minOccurs = "0">
 <xs:complexType>
+<xs:sequence>
 <xs:element name="author" type="xs:string"/>
-<xs:element name="title" type="xs:string"/>
-<xs:element name="price" type="xs:float"/>
-</xs:complexType>
+<xs:element name="title" type="xs:string" />
+<xs:element name="price" type="xs:float" />
 </xs:sequence>
 
 
