@@ -1,22 +1,30 @@
-import matplotlib.pyplot as plt
+def sum_of_sub(s, k, r, w, m, x, solutions):
+    # Generate left child (include w[k])
+    x[k] = 1
+    if s + w[k] == m:
+        # If a subset that sums to m is found, add it to the solutions list
+        solutions.append([w[i] for i in range(k + 1) if x[i] == 1])
+    elif s + w[k] + w[k + 1] <= m:
+        # Recur with the current element included
+        sum_of_sub(s + w[k], k + 1, r - w[k], w, m, x, solutions)
+    
+    # Generate right child (exclude w[k])
+    if (s + r - w[k] >= m) and (s + w[k + 1] <= m):
+        x[k] = 0
+        sum_of_sub(s, k + 1, r - w[k], w, m, x, solutions)
 
-# Sample data
-x = [1, 2, 3, 4, 5]
-y = [4, -5, 16, 7, 28]
+def find_subsets(w, m):
+    n = len(w)
+    x = [0] * n  # To track the subset inclusion
+    solutions = []
+    total_sum = sum(w)  # r is the sum of all remaining elements initially
+    sum_of_sub(0, 0, total_sum, w, m, x, solutions)
+    return solutions
 
-# Create a plot
-plt.plot(x, y, marker="o", linestyle=":", color='blue')
-# Add title and labels
-plt.title("Basic Text Example")
-plt.xlabel("X-axis Label")
-plt.ylabel("Y-axis Label")
-
-# Add text to the plot in data coordinates
-# plt.text(3, 6, 'Data Text', fontsize=12, color='green')
-
-# # Add text to the plot in axes coordinates
-# plt.text(0.5, 0.1, 'Axes Text', fontsize=12, color='red', ha='center', va='bottom', transform=plt.gca().transAxes)
-
-# Display the plot
-plt.grid(False)
-plt.show()
+# Example usage
+w = [5, 10, 12, 13, 15, 18]
+m = 30
+solutions = find_subsets(w, m)
+print("Subsets that sum to", m, ":")
+for subset in solutions:
+    print(subset)
