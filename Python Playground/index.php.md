@@ -1,27 +1,27 @@
 
 
-<?php 
+<script>
 
-$servername = "localhost";
-$dbname = "cct";
-$username = "root";
-$password = "";
+document.getElementById("signUpForm").addEventListener(function(event){
+let isValid = true;
 
-// create a connection
-$conn = new mysqli($servername, $dbname, $username, $password);
+const name = document.getElementById("name").value;
+const email = document.getElementById("email").value;
+const emailPattern = /^/;
+const password = document.getElementById("password").value;
+const passwordPattern = /^/;
+const age = document.getElementById("age").value;
 
-// check the connection
-if($conn->connect_error){
- die("Connection Failed".$conn->connect_error);
+
+if(name == ""){
+
+}else{
+
 }
-if($_SERVER["REQUEST_METHOD"] == "POST"){
- $id 
 
- $sql = "INSERT INTO Student (firstname, lastname, email)
+
+if(!isValid){
+ event.preventDefault();
 }
 
-$conn->close();
-?>
-
-
-
+</script>
