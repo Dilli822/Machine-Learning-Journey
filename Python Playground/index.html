@@ -14,7 +14,7 @@ display: none;
 </head>
 <body>
 
-<form id="signupForm">
+<!-- <form id="signupForm">
 <label for="username">
 username </label>
 <span id="username_error" class="error hidden"> username must be more than 5 characters</span> <br>
@@ -35,14 +35,64 @@ username </label>
 <input type="password" id="password" name="password"/><br>
 
 <button type="submit"> signup </button>
-</form>
+</form> -->
+
+
 
 <script>
-document.getElementById("signupForm").addEventListener(
- 'submit', function(event){
+console.log("JSON ")
+let details = {
+    "name": "dilli", // string
+    "age": 25, // numbers
+    "ishungry": null, // null
+    "isMarried": false, //boolean
+    "hobbies": ["music", "hiking", "takig photos", "watching movies", "travels"] // arrays
 }
-)
-</script>
+
+
+console.log(JSON.stringify(details));
+let stringObj = JSON.stringify(details);
+console.log("json parse", JSON.parse(stringObj))
+
+Object.entries(details).forEach(([key, value] ) => {
+     console.log(`${key}: ${value}`);
+})
+
+console.log("JQURY HIDE")
+$(document).ready(function(){
+
+    $("").animate({
+        width: "1222px",
+        height: "12121px",
+        opacity: 0.5
+    }, 2000, function(){
+        alert("CSDSDS");
+    })
+})
+
+$().hide();
+$().animate(function(){
+
+})
+
+$().toggle()
+$().show()
+
+
+$(document).ready(function(){
+    $("").click(function(){
+        $("").hide();
+    })
+})
+
+$(document).ready(function(){
+
+    $().click(function(){
+        $().show();
+    })
+})
+
+    </script>
 
 </body>
 </html>
