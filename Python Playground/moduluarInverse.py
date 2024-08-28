@@ -36,4 +36,4 @@ inverse = modular_inverse(a, m)
 if inverse is not None:
     print(f"The modular inverse of {a} modulo {m} is {inverse}.")
 else:
-    print(f"The modular inverse of {a} modulo {m} does not exist.")
+    print(f"The modular inverse of {a} modulo {m} does not exist."
