@@ -29,11 +29,11 @@ def modular_inverse(a, m):
         return inverse
 
 # Example usage
-a = 14
-m = 19
+a = 2
+m = 26
 
 inverse = modular_inverse(a, m)
 if inverse is not None:
     print(f"The modular inverse of {a} modulo {m} is {inverse}.")
 else:
-    print(f"The modular inverse of {a} modulo {m} does not exist."
+    print(f"The modular inverse of {a} modulo {m} does not exist.")
