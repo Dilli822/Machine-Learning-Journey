@@ -25,14 +25,14 @@ test_data = sequence.pad_sequences(test_data, maxlen=MAXLEN)
 model = tf.keras.Sequential([
     tf.keras.layers.Embedding(VOCAB_SIZE, 32),
     tf.keras.layers.LSTM(32),
-    tf.keras.layers.Dense(1, activation="sigmoid")
+    tf.keras.layers.Dense(1, activation="tanh")
 ])
 
 model.summary()
 
 # Compile and train the model
 model.compile(loss="binary_crossentropy", optimizer="rmsprop", metrics=["acc"])
-history = model.fit(train_data, train_labels, epochs=5, validation_split=0.2)
+history = model.fit(train_data, train_labels, epochs=10, validation_split=0.2)
 
 # Evaluate the model
 results = model.evaluate(test_data, test_labels)
@@ -57,10 +57,10 @@ def predict(text):
 reviews = [
     "That movie was so awesome! I really loved it and would watch it again because it was amazingly great.",
     "That movie sucked. I hated it and wouldn't watch it again. It was one of the worst things I've ever watched.",
-    "The movie was terrible, I wouldn't recommend it.",
     "I just saw this movie tonight and it was one of the best I have ever seen. Simply amazing. It made GRAVITY look like a kiddie flick.",
     "The fact this movie was made in 1997 and is still one of the most amazing movies of all time is mind-blowing",
-    "I really miss this movie so much. That time when I watched this movie on theatres with full of people and the crowd went crazy during epic fights."
+    "I really miss this movie so much. That time when I watched this movie on theatres with full of people and the crowd went crazy during epic fights.",
+    "The movie was terrible, I wouldn't recommend it.",
 ]
 
 # Evaluate each review and store results
@@ -108,7 +108,7 @@ for i, review in enumerate(reviews):
     percentage = review_accuracies[i] * 100
     plt.figtext(0.1, 0.02 + 0.05 * (len(reviews) - i), f"Review {i+1} ({percentage:.2f}%): {review}", fontsize=10, ha='left')
 
-plt.subplots_adjust(bottom=0.35)
+plt.subplots_adjust( bottom=0.45)
 plt.show()
 
 # Open a CSV file to write the results
