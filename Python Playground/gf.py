@@ -1,245 +1,103 @@
-# import math
-# from prettytable import PrettyTable
+import heapq
+from collections import defaultdict, Counter
 
-# class GaloisField:
-#     def __init__(self, p, n):
-#         if not self._is_prime(p):
-#             raise ValueError(f"{p} is not a prime number")
-#         self.p = p
-#         self.n = n
-#         self.order = p ** n
-#         self.elements = self._generate_elements()
-#         self.addition_table = self._generate_operation_table(self.add)
-#         self.multiplication_table = self._generate_operation_table(self.multiply)
+class Node:
+    def __init__(self, char, freq):
+        self.char = char
+        self.freq = freq
+        self.left = None
+        self.right = None
 
-#     def _is_prime(self, num):
-#         if num < 2:
-#             return False
-#         for i in range(2, int(math.sqrt(num)) + 1):
-#             if num % i == 0:
-#                 return False
-#         return True
+    def __lt__(self, other):
+        return self.freq < other.freq
 
-#     def _generate_elements(self):
-#         return list(range(self.order))
+def build_huffman_tree(freq_dict):
+    heap = [Node(char, freq) for char, freq in freq_dict.items()]
+    heapq.heapify(heap)
 
-#     def add(self, a, b):
-#         return (a + b) % self.order
+    while len(heap) > 1:
+        left = heapq.heappop(heap)
+        right = heapq.heappop(heap)
 
-#     def subtract(self, a, b):
-#         return (a - b) % self.order
+        merged = Node(None, left.freq + right.freq)
+        merged.left = left
+        merged.right = right
 
-#     def multiply(self, a, b):
-#         return (a * b) % self.order
+        heapq.heappush(heap, merged)
 
-#     def divide(self, a, b):
-#         if b == 0:
-#             raise ValueError("Division by zero")
-#         b_inv = pow(b, self.order - 2, self.order)
-#         return self.multiply(a, b_inv)
+    return heap[0]
 
-#     def _generate_operation_table(self, operation):
-#         return [[operation(a, b) for b in self.elements] for a in self.elements]
+def generate_codes(root, current_code="", codes={}):
+    if root is None:
+        return
 
-#     def print_operation_table(self, operation_name, table):
-#         print(f"\n{operation_name} Table:")
-#         pt = PrettyTable()
-#         pt.field_names = [""] + [str(e) for e in self.elements]
-#         for i, row in enumerate(table):
-#             pt.add_row([str(self.elements[i])] + [str(e) for e in row])
-#         print(pt)
+    if root.char is not None:
+        codes[root.char] = current_code
+        return
 
-#     def check_axioms(self):
-#         print("\nChecking Field Axioms:")
-        
-#         # Closure
-#         print("1. Closure:")
-#         print("  Addition: ✓")
-#         print("  Multiplication: ✓")
-        
-#         # Associativity
-#         print("2. Associativity:")
-#         add_assoc = all(self.add(self.add(a, b), c) == self.add(a, self.add(b, c)) 
-#                         for a in self.elements for b in self.elements for c in self.elements)
-#         mul_assoc = all(self.multiply(self.multiply(a, b), c) == self.multiply(a, self.multiply(b, c)) 
-#                         for a in self.elements for b in self.elements for c in self.elements)
-#         print(f"  Addition: {'✓' if add_assoc else '✗'}")
-#         print(f"  Multiplication: {'✓' if mul_assoc else '✗'}")
-        
-#         # Commutativity
-#         print("3. Commutativity:")
-#         add_comm = all(self.add(a, b) == self.add(b, a) for a in self.elements for b in self.elements)
-#         mul_comm = all(self.multiply(a, b) == self.multiply(b, a) for a in self.elements for b in self.elements)
-#         print(f"  Addition: {'✓' if add_comm else '✗'}")
-#         print(f"  Multiplication: {'✓' if mul_comm else '✗'}")
-        
-#         # Identity elements
-#         print("4. Identity Elements:")
-#         add_id = next((e for e in self.elements if all(self.add(a, e) == a for a in self.elements)), None)
-#         mul_id = next((e for e in self.elements if all(self.multiply(a, e) == a for a in self.elements)), None)
-#         print(f"  Additive Identity (0): {'✓' if add_id == 0 else '✗'}")
-#         print(f"  Multiplicative Identity (1): {'✓' if mul_id == 1 else '✗'}")
-        
-#         # Inverse elements
-#         print("5. Inverse Elements:")
-#         add_inv = all(any(self.add(a, b) == add_id for b in self.elements) for a in self.elements)
-#         mul_inv = all(any(self.multiply(a, b) == mul_id for b in self.elements) for a in self.elements if a != 0)
-#         print(f"  Additive Inverse: {'✓' if add_inv else '✗'}")
-#         print(f"  Multiplicative Inverse (except 0): {'✓' if mul_inv else '✗'}")
-        
-#         # Distributivity
-#         print("6. Distributivity:")
-#         distrib = all(self.multiply(a, self.add(b, c)) == self.add(self.multiply(a, b), self.multiply(a, c))
-#                       for a in self.elements for b in self.elements for c in self.elements)
-#         print(f"  {'✓' if distrib else '✗'}")
+    generate_codes(root.left, current_code + "0", codes)
+    generate_codes(root.right, current_code + "1", codes)
 
-#     def __str__(self):
-#         return f"GF({self.p}^{self.n})"
+    return codes
 
-# # Let the user input p and n
-# p = int(input("Enter a prime number p: "))
-# n = int(input("Enter a positive integer n: "))
+def encode_message(message, codes):
+    return ''.join(codes[char] for char in message)
 
-# try:
-#     gf = GaloisField(p, n)
-#     print(f"\nCreated Galois Field: {gf}")
-    
-#     gf.print_operation_table("Addition", gf.addition_table)
-#     gf.print_operation_table("Multiplication", gf.multiplication_table)
-    
-#     gf.check_axioms()
-    
-# except ValueError as e:
-#     print(f"Error: {e}")
+def decode_message(encoded_message, root):
+    decoded_message = []
+    current_node = root
 
-import math
-from prettytable import PrettyTable
+    for bit in encoded_message:
+        if bit == '0':
+            current_node = current_node.left
+        else:
+            current_node = current_node.right
 
-class GaloisField:
-    def __init__(self, p, n):
-        if not self._is_prime(p):
-            raise ValueError(f"{p} is not a prime number")
-        self.p = p
-        self.n = n
-        self.order = p ** n
-        self.elements = self._generate_elements()
-        self.addition_table = self._generate_operation_table(self.add)
-        self.subtraction_table = self._generate_operation_table(self.subtract)
-        self.multiplication_table = self._generate_operation_table(self.multiply)
-        self.division_table = self._generate_division_table()
+        if current_node.char is not None:
+            decoded_message.append(current_node.char)
+            current_node = root
 
-    def _is_prime(self, num):
-        if num < 2:
-            return False
-        for i in range(2, int(math.sqrt(num)) + 1):
-            if num % i == 0:
-                return False
-        return True
+    return ''.join(decoded_message)
 
-    def _generate_elements(self):
-        return list(range(self.order))
+def huffman_encoding(message):
+    freq_dict = Counter(message)
+    huffman_tree_root = build_huffman_tree(freq_dict)
+    huffman_codes = generate_codes(huffman_tree_root)
+    encoded_message = encode_message(message, huffman_codes)
+    return encoded_message, huffman_tree_root, huffman_codes, freq_dict
 
-    def add(self, a, b):
-        return (a + b) % self.order
+# Function to calculate total bits before and after Huffman encoding
+def calculate_total_bits(freq_dict, huffman_codes, message_length):
+    # Before encoding: 8 bits per character
+    total_bits_before = message_length * 8
 
-    def subtract(self, a, b):
-        return (a - b) % self.order
+    # After encoding: sum of frequency of char * length of its code
+    total_bits_after = sum(freq_dict[char] * len(huffman_codes[char]) for char in freq_dict)
 
-    def multiply(self, a, b):
-        return (a * b) % self.order
+    return total_bits_before, total_bits_after
 
-    def divide(self, a, b):
-        if b == 0:
-            raise ValueError("Division by zero")
-        b_inv = pow(b, self.order - 2, self.order)
-        return self.multiply(a, b_inv)
+# Example usage
+message = "BCCABBDDAECCBBAEDDCC"
 
-    def _generate_operation_table(self, operation):
-        return [[operation(a, b) for b in self.elements] for a in self.elements]
+# Perform Huffman encoding
+encoded_message, huffman_tree_root, huffman_codes, freq_dict = huffman_encoding(message)
 
-    def _generate_division_table(self):
-        table = []
-        for a in self.elements:
-            row = []
-            for b in self.elements:
-                try:
-                    row.append(self.divide(a, b))
-                except ValueError:
-                    row.append('N/A')
-            table.append(row)
-        return table
+# Print Huffman codes for each character
+print("Huffman Codes:", huffman_codes)
 
-    def print_operation_table(self, operation_name, table):
-        print(f"\n{operation_name} Table:")
-        pt = PrettyTable()
-        pt.field_names = [""] + [str(e) for e in self.elements]
-        for i, row in enumerate(table):
-            pt.add_row([str(self.elements[i])] + [str(e) for e in row])
-        print(pt)
+# Print the encoded message
+print("Encoded Message:", encoded_message)
 
-    def check_axioms(self):
-        print("\nChecking Field Axioms:")
-        
-        # Closure
-        print("1. Closure:")
-        print("  Addition: ✓")
-        print("  Subtraction: ✓")
-        print("  Multiplication: ✓")
-        print("  Division (except by 0): ✓")
-        
-        # Associativity
-        print("2. Associativity:")
-        add_assoc = all(self.add(self.add(a, b), c) == self.add(a, self.add(b, c)) 
-                        for a in self.elements for b in self.elements for c in self.elements)
-        mul_assoc = all(self.multiply(self.multiply(a, b), c) == self.multiply(a, self.multiply(b, c)) 
-                        for a in self.elements for b in self.elements for c in self.elements)
-        print(f"  Addition: {'✓' if add_assoc else '✗'}")
-        print(f"  Multiplication: {'✓' if mul_assoc else '✗'}")
-        
-        # Commutativity
-        print("3. Commutativity:")
-        add_comm = all(self.add(a, b) == self.add(b, a) for a in self.elements for b in self.elements)
-        mul_comm = all(self.multiply(a, b) == self.multiply(b, a) for a in self.elements for b in self.elements)
-        print(f"  Addition: {'✓' if add_comm else '✗'}")
-        print(f"  Multiplication: {'✓' if mul_comm else '✗'}")
-        
-        # Identity elements
-        print("4. Identity Elements:")
-        add_id = next((e for e in self.elements if all(self.add(a, e) == a for a in self.elements)), None)
-        mul_id = next((e for e in self.elements if all(self.multiply(a, e) == a for a in self.elements)), None)
-        print(f"  Additive Identity (0): {'✓' if add_id == 0 else '✗'}")
-        print(f"  Multiplicative Identity (1): {'✓' if mul_id == 1 else '✗'}")
-        
-        # Inverse elements
-        print("5. Inverse Elements:")
-        add_inv = all(any(self.add(a, b) == add_id for b in self.elements) for a in self.elements)
-        mul_inv = all(any(self.multiply(a, b) == mul_id for b in self.elements) for a in self.elements if a != 0)
-        print(f"  Additive Inverse: {'✓' if add_inv else '✗'}")
-        print(f"  Multiplicative Inverse (except 0): {'✓' if mul_inv else '✗'}")
-        
-        # Distributivity
-        print("6. Distributivity:")
-        distrib = all(self.multiply(a, self.add(b, c)) == self.add(self.multiply(a, b), self.multiply(a, c))
-                      for a in self.elements for b in self.elements for c in self.elements)
-        print(f"  {'✓' if distrib else '✗'}")
+# Calculate total bits before and after encoding
+total_bits_before, total_bits_after = calculate_total_bits(freq_dict, huffman_codes, len(message))
 
-    def __str__(self):
-        return f"GF({self.p}^{self.n})"
+# Output total bits before and after
+print(f"Total bits before encoding: {total_bits_before} bits")
+print(f"Total bits after encoding: {total_bits_after} bits")
 
-# Let the user input p and n
-p = int(input("Enter a prime number p: "))
-n = int(input("Enter a positive integer n: "))
+# Decode the encoded message to verify correctness
+decoded_message = decode_message(encoded_message, huffman_tree_root)
+print("Decoded Message:", decoded_message)
 
-try:
-    gf = GaloisField(p, n)
-    print(f"\nCreated Galois Field: {gf}")
-    
-    gf.print_operation_table("Addition", gf.addition_table)
-    gf.print_operation_table("Subtraction", gf.subtraction_table)
-    gf.print_operation_table("Multiplication", gf.multiplication_table)
-    gf.print_operation_table("Division", gf.division_table)
-    
-    gf.check_axioms()
-    
-except ValueError as e:
-    print(f"Error: {e}")
+# Verify the encoding-decoding process
+assert message == decoded_message
