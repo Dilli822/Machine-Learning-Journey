@@ -29,7 +29,7 @@ def read_text_from_file(file_path):
         return None
 
 # Try to read from a file (text, PDF, or Word), or use default text
-file_path = 'Dilli Hang Rai - Academic Resume (1).pdf'  # Change this to your desired file path
+file_path = 'sm.txt'  # Change this to your desired file path
 text = "Please Upload the file!"
 
 try:
@@ -40,7 +40,7 @@ except (FileNotFoundError, ValueError) as e:
     text = "Hello, welcome to Python text-to-speech conversion!"
 
 # Set properties (optional)
-engine.setProperty('rate', 150)    # Speed of speech
+engine.setProperty('rate', 200)    # Speed of speech
 engine.setProperty('volume', 1)    # Volume level (0.0 to 1.0)
 
 # List available voices and filter for English voices
