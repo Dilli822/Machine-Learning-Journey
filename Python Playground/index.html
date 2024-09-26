@@ -1,34 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JS PlayGround</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events and Cookies Example</title>
+    <script src="script.js" defer></script>
 </head>
 <body>
-  <h3>Console me</h3>
-  
+    <h1>Events and Cookies</h1>
+    <button id="setCookieBtn">Set Cookie</button>
+    <button id="getCookieBtn">Get Cookie</button>
+    <button id="deleteCookieBtn">Delete Cookie</button>
+    <p id="message"></p>
+    <script>
+      // Event listeners for buttons
+document.getElementById('setCookieBtn').addEventListener('click', () => {
+    setCookie('username', 'JohnDoe', 7); // Set a cookie for 7 days
+    document.getElementById('message').innerText = "Cookie 'username' set.";
+});
+
+document.getElementById('getCookieBtn').addEventListener('click', () => {
+    const cookieValue = getCookie('username');
+    document.getElementById('message').innerText = cookieValue ? `Cookie Value: ${cookieValue}` : "Cookie not found.";
+});
+
+document.getElementById('deleteCookieBtn').addEventListener('click', () => {
+    deleteCookie('username'); // Delete the cookie
+    document.getElementById('message').innerText = "Cookie 'username' deleted.";
+});
+
+// Function to set a cookie
+function setCookie(name, value, days) {
+    const expires = new Date(Date.now() + days * 864e5).toUTCString(); // Set expiration date
+    document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+}
+
+// Function to get a cookie by name
+function getCookie(name) {
+    return document.cookie.split('; ').reduce((r, c) => {
+        const [key, val] = c.split('=');
+        return key === name ? decodeURIComponent(val) : r;
+    }, '');
+}
+
+// Function to delete a cookie
+function deleteCookie(name) {
+    setCookie(name, '', -1); // Set the cookie with a past expiration date
+}
+    </script>
 </body>
-
-<script>
-  
-let jsonOb = {
-  "brand": "samsung",
-  "price": 2323.2323,
-  "pname": "Tab A9 4GB RAM/64GB ROM",
-  "isOffer": false,
-  "isStock": null
-};
-
-let jsonStr = JSON.stringify(jsonOb);
-console.log(jsonStr);
-
-console.log("json parse", JSON.parse(jsonStr))
-
-Object.entries(jsonOb).forEach(([key, value]) =>{
-  console.log(`${key}: ${value}`);
-})
-
-</script>
-
 </html>

@@ -32,3 +32,21 @@ let r = new Car("volvo", "black")
 console.log(r.color,
     r.name)
 
+
+
+    let jsonOb = {
+        "brand": "samsung",
+        "price": 2323.2323,
+        "pname": "Tab A9 4GB RAM/64GB ROM",
+        "isOffer": false,
+        "isStock": null
+      };
+      
+      let jsonStr = JSON.stringify(jsonOb);
+      console.log(jsonStr);
+      
+      console.log("json parse", JSON.parse(jsonStr))
+      
+      Object.entries(jsonOb).forEach(([key, value]) =>{
+        console.log(`${key}: ${value}`);
+      })
