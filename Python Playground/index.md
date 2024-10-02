@@ -1,6 +1,0 @@
-
-
-// js 
-setCookie();
-getCookie();
-deleteCookie();
