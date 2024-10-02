@@ -25,3 +25,12 @@ temp/
 # Ignore Python environment folders
 env/
 .venv/
+
+# Ignore specific file types in the Deep Computer Vision/Python Tesseract directory
+Deep Computer Vision/Python Tesseract/*.jpg
+Deep Computer Vision/Python Tesseract/*.txt
+Deep Computer Vision/Python Tesseract/*.pdf
+Deep Computer Vision/Python Tesseract/*.docx
+Deep Computer Vision/Python Tesser Tesseract/*.png
+Deep Computer Vision/Python Tesseract/*.webp
+Deep Computer Vision/Python Tesseract/*.jpeg
