@@ -27,10 +27,10 @@ env/
 .venv/
 
 # Ignore specific file types in the Deep Computer Vision/Python Tesseract directory
-Deep Computer Vision/Python Tesseract/*.jpg
-Deep Computer Vision/Python Tesseract/*.txt
-Deep Computer Vision/Python Tesseract/*.pdf
-Deep Computer Vision/Python Tesseract/*.docx
-Deep Computer Vision/Python Tesser Tesseract/*.png
-Deep Computer Vision/Python Tesseract/*.webp
-Deep Computer Vision/Python Tesseract/*.jpeg
+Deep Computer Vision/Python Tesseract/Medical Report/*.jpg
+Deep Computer Vision/Python Tesseract/Medical Report/*.txt
+Deep Computer Vision/Python Tesseract/Medical Report/*.pdf
+Deep Computer Vision/Python Tesseract/Medical Report/*.docx
+Deep Computer Vision/Python Tesser Tesseract/Medical Report/*.png
+Deep Computer Vision/Python Tesseract/Medical Report/*.webp
+Deep Computer Vision/Python Tesseract/Medical Report/*.jpeg
