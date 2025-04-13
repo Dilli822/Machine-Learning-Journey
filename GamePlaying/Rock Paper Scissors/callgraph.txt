@@ -1,0 +1,53 @@
+
+
+📂 main.py
+├──▶ play(player, quincy, 1000)
+│    └──▶ RPS_game.play()
+│         ├──▶ player(prev_play, opponent_history=[])         [from RPS.py]
+│         └──▶ quincy(prev_play)
+│
+├──▶ play(player, abbey, 1000)
+│    └──▶ RPS_game.play()
+│         ├──▶ player(prev_play, opponent_history=[])
+│         └──▶ abbey(prev_play)
+│               └──▶ uses play_order + opponent_history
+│
+├──▶ play(player, kris, 1000)
+│    └──▶ RPS_game.play()
+│         ├──▶ player(prev_play, opponent_history=[])
+│         └──▶ kris(prev_play)
+│
+├──▶ play(player, mrugesh, 1000)
+│    └──▶ RPS_game.play()
+│         ├──▶ player(prev_play, opponent_history=[])
+│         └──▶ mrugesh(prev_play)
+│               └──▶ uses most frequent in history
+│
+├──▶ play(human, abbey, 20, verbose=True)   ← [interactive play]
+│    └──▶ human(prev_opponent_play)    ← prompts for user input
+│
+├──▶ play(human, random_player, 1000)
+│    └──▶ random_player(prev_opponent_play)    ← selects randomly
+│
+└──▶ main(module='test_module')
+     └──▶ UnitTests (All tests internally call ▶ play())
+          ├──▶ test_player_vs_quincy(self)
+          ├──▶ test_player_vs_abbey(self)
+          ├──▶ test_player_vs_kris(self)
+          └──▶ test_player_vs_mrugesh(self)
+               └──▶ All tests internally call ▶ play()
+
+
+Function Details
+* play(player1, player2, num_games): Orchestrates the game loop.
+    * Calls the player functions (like quincy(), mrugesh(), etc.) by passing the opponent's previous move.
+    * Compares results and prints final scores.
+* Bot Strategies:
+    * quincy(): Cycles through a predefined list.
+    * mrugesh(): Counters the most frequent move in the last 10.
+    * abbey(): Predicts based on the last 2 plays and transition likelihood.
+    * kris(): Basic counter to opponent’s last move.
+    * random_player(): Randomly selects 'R', 'P', or 'S'.
+* RPS.player(): Our custom player that adapts to the opponent’s previous move.
+* test_module.py:
+    * Contains unit tests to ensure our custom player wins at least 60% against each bot.

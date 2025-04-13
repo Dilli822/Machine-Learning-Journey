@@ -1,0 +1,150 @@
+
+🤖 1. quincy – Pattern-Based Bot
+def quincy(prev_play, counter=[0]):
+    counter[0] += 1
+    choices = ["R", "R", "P", "P", "S"]
+    return choices[counter[0] % len(choices)]
+🔍 Explanation:
+counter=[0]: Uses a mutable default argument to keep count across calls (acts like a static variable).
+
+counter[0] += 1: Increments the counter every time the function is called.
+
+choices = ["R", "R", "P", "P", "S"]: A hard-coded repeating pattern of moves.
+
+choices[counter[0] % len(choices)]: Loops through the pattern in a cycle.
+
+📌 Strategy:
+Plays in a fixed, repeating pattern: R → R → P → P → S → R → R ...
+
+🤖 2. mrugesh – Frequency Counter Bot
+def mrugesh(prev_opponent_play, opponent_history=[]):
+    opponent_history.append(prev_opponent_play)
+    last_ten = opponent_history[-10:]
+    most_frequent = max(set(last_ten), key=last_ten.count)
+
+    if most_frequent == '':
+        most_frequent = "S"
+
+    ideal_response = {'P': 'S', 'R': 'P', 'S': 'R'}
+    return ideal_response[most_frequent]
+🔍 Explanation:
+opponent_history=[]: Keeps track of the opponent's past moves.
+
+opponent_history.append(prev_opponent_play): Records the opponent's latest move.
+
+last_ten = opponent_history[-10:]: Focuses only on the last 10 moves.
+
+most_frequent = max(set(last_ten), key=last_ten.count): Finds the most commonly played move in the last 10.
+
+if most_frequent == '': most_frequent = 'S': If there's no data, assume "S".
+
+ideal_response = {'P': 'S', 'R': 'P', 'S': 'R'}: Dictionary to counter the most frequent move.
+
+return ideal_response[most_frequent]: Returns the move that beats the frequent one.
+
+📌 Strategy:
+Learns and counters your most frequent recent move.
+
+🤖 3. kris – Last-Move Counter Bot
+def kris(prev_opponent_play):
+    if prev_opponent_play == '':
+        prev_opponent_play = "R"
+    ideal_response = {'P': 'S', 'R': 'P', 'S': 'R'}
+    return ideal_response[prev_opponent_play]
+🔍 Explanation:
+If no previous move (first round), assume "R".
+
+Uses ideal_response to counter the last move.
+
+📌 Strategy:
+Assumes you'll repeat your last move, so it always counters your previous play.
+
+🤖 4. abbey – Sequence Prediction Bot
+def abbey(prev_opponent_play,
+          opponent_history=[],
+          play_order=[{
+              "RR": 0, "RP": 0, "RS": 0,
+              "PR": 0, "PP": 0, "PS": 0,
+              "SR": 0, "SP": 0, "SS": 0,
+          }]):
+🔍 Part-by-Part:
+    if not prev_opponent_play:
+        prev_opponent_play = 'R'
+Sets a default move on the first round.
+
+python
+    opponent_history.append(prev_opponent_play)
+Remembers what the opponent played last.
+
+python
+    last_two = "".join(opponent_history[-2:])
+Gets the last 2 moves in sequence (e.g., "RP").
+
+python
+    if len(last_two) == 2:
+        play_order[0][last_two] += 1
+Increments the frequency of that 2-move pattern.
+
+python
+    potential_plays = [
+        prev_opponent_play + "R",
+        prev_opponent_play + "P",
+        prev_opponent_play + "S",
+    ]
+Forms 3 possible future patterns like "RR", "RP", "RS" based on current state.
+
+python
+    sub_order = {
+        k: play_order[0][k]
+        for k in potential_plays if k in play_order[0]
+    }
+Filters known transitions for scoring.
+
+python
+    prediction = max(sub_order, key=sub_order.get)[-1:]
+Picks the most likely next move based on historical frequency.
+
+python
+    ideal_response = {'P': 'S', 'R': 'P', 'S': 'R'}
+    return ideal_response[prediction]
+Returns the move that counters the predicted move.
+
+📌 Strategy:
+Learns from two-move sequences to predict the most likely next move and counter it.
+
+🧑 5. human – Interactive User
+python
+def human(prev_opponent_play):
+    play = ""
+    while play not in ['R', 'P', 'S']:
+        play = input("[R]ock, [P]aper, [S]cissors? ")
+        print(play)
+    return play
+🔍 Explanation:
+Keeps asking the human player for input until a valid option is entered.
+
+Returns the human's move.
+
+📌 Strategy:
+Human-controlled, user types their move.
+
+🎲 6. random_player – Random Strategy
+python
+def random_player(prev_opponent_play):
+    return random.choice(['R', 'P', 'S'])
+🔍 Explanation:
+Uses Python’s random.choice() to return any of the three moves at random.
+
+Ignores the previous move.
+
+📌 Strategy:
+Completely unpredictable, chooses each move with equal probability.
+
+✅ Summary Table
+Bot	Strategy Description
+Quincy	Cycles through a fixed pattern: R → R → P → P → S
+Mrugesh	Tracks last 10 opponent moves, counters the most frequent
+Kris	Counters your most recent move
+Abbey	Learns 2-move patterns, predicts next move, and counters it
+Human	Manual input
+Random	Plays a random move every round
